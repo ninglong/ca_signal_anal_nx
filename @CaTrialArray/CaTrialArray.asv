@@ -1,0 +1,107 @@
+% Class for an array of Ca imaging trials
+% NX Feb 2009
+%
+classdef imTrialArray < handle
+    
+    properties
+        SessionName = '';
+        AnimalName = '';
+        
+        imTrials = [];  % take the object array of imaging trials
+        % FileName = '';
+        % FileName_prefix = ''; 
+        TrialNo = [];
+        nTrials = [];
+        nROIs = []; % total number of ROIs
+        nFramesPerTrial = [];
+        FrameTime =[]; % time for each frame, in ms
+        nChannels = 1;
+%         CaTraceArray_raw = []; % raw intensity
+        EphusTrials = [];
+        WhiskerTrials = [];
+        SoloTrial = [];
+%         ROIMask = [];
+%         ROIPolygon = []; 
+%         ROIType = {};
+%         AnalysisMode = []; % store relevant GUI variables during analysis
+%         
+        
+%         
+%         
+        % Traces = {};
+
+        
+        
+    end
+    
+    properties (Dependent, SetAccess = private)
+        
+        
+    end
+        
+    methods (Access = public) 
+        function obj = imTrialArray(imTrailsObj, varargin)
+              obj.SessionName = imTrialsObj(1).SessionName;
+              obj.AnimalName = imTrialsObj(1).AnimalName;
+              
+%             load(Ca_Result_file);
+%             obj.TrialID = Result.TrialNo;
+%             obj.nROI = length(Result.CellInfo);
+%             CaTraceArray = cell(1,obj.nROI);
+%             obj.fullFileName = Result.FileName;
+%             [filepath, filename] = fileparts(obj.fullFileName);
+%             obj.mainFileName = filename;
+%             obj.DaqParam = Result.state.acq;
+%             obj.UnitTime = Result.UnitTime;
+            
+            % First check if the imaging data and ephys data are triggered
+%             % at the same time. Then store ephys data.
+%             im_trigger_time(1) = str2num(Result.state.internal.triggerTimeString(end-4:end-3));
+%             im_trigger_time(2) = str2num(Result.state.internal.triggerTimeString(end-1:end));
+%             
+%             obj.ImFileInfo.ImgTriggerTime = im_trigger_time;
+%             xsgFileNum = obj.TrialID;
+%             keep_choose_xsgfile = 1;
+%             
+%             while keep_choose_xsgfile
+%                 xsg_file = dir(['NX0001\' '*' num2str(xsgFileNum) '.xsg']);
+%                 xsg = load(['NX0001\' xsg_file(1).name],'-mat');
+%                 obj.ephysData.ephys_trigger_time = floor(xsg.header.stimulator.stimulator.triggerTime(end-1:end));
+%                 
+%                 if ~isequal(obj.ImFileInfo.ImgTriggerTime, obj.ephysData.ephys_trigger_time)
+%                     tmp = (obj.ImFileInfo.ImgTriggerTime - obj.ephysData.ephys_trigger_time);
+%                     time_diff = tmp(1)*60 + tmp(2); % in sec
+%                     warning('The imaging file and xsg file do not match!');
+%                     disp(['trigger time difference: ' num2str(time_diff) 'sec']);
+%                     xsgFileNum = input('Input another xsg file number? ');
+%                     if ~isinteger(xsgFileNum)
+%                         warning('Only xsg header loaded!');
+%                         break;
+%                     end;
+%                 else
+%                     obj.ephysData.data = xsg.data;
+%                     keep_choose_xsgfile = 0;
+%                 end;
+%             end
+%             obj.ephysData.header = xsg.header;
+%             % display the average Image with ROIs
+%             scrsz = get(0,'ScreenSize');
+%             figure('Position', [scrsz(3)*0.7, 30, scrsz(3)*0.3, scrsz(4)*0.35]);
+%             imagesc(Result.ROIInfo.CurrentAverageImage, [0 200]); colormap(gray);
+%             for i = 1:obj.nROI, 
+%                 PolyPosition = squeeze(Result.ROIInfo.CellPolygon(:,:,i)); 
+%                 line(PolyPosition(:,1), PolyPosition(:,2), 'Color', 'r', 'LineWidth', 1);
+%                 text(nanmean(PolyPosition(:,1)), nanmean(PolyPosition(:,2)), int2str(i), 'color', [1 0 0]);
+%             end
+%             %
+%             for i = 1:obj.nROI
+%                 obj.Traces{i} = CaTrace(Result, i);
+%             end;
+            
+        end
+%         function im = get.imMatrix(obj)
+%             im = imread_multi(obj.FileName, 'g');
+%         end
+    end
+end
+    

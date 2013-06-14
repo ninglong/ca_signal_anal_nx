@@ -1,0 +1,17 @@
+function behavTrials = Ca_add_behavTrialObj(obj,behavTrialStartEnd, behavSessionName)
+% Instantiate behavioral trial objects, and add each to each Ca Image Trial
+% objects. 
+% obj, CaImageTrials object array
+% behavTrialStartEnd, the trial numbers in behavioral session corresponding
+%                     to the first and last trials of Ca imaging 
+
+
+solo_data = Solo.load_solo(obj(1).AnimalName, behavSessionName,trialStartEnd);
+behavTrialNums = trialStartEnd(1):trialStartEnd(2);
+if length(behavTrialNums) ~= length(obj)
+    error('Number of behavior trials NOT equal to Number of Ca Image Trials!')
+end
+for i = 1:length(behavTrialNums)
+    behavTrials(i) = Solo.BehavTrial(solo_data,behavTrialNums(i),1);
+    obj(i).behavTrial = behavTrials(i);
+end

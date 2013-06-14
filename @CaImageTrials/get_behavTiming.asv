@@ -1,0 +1,21 @@
+function [eventTimes] = get_behavTiming(obj, eventName)
+
+if isempty(obj.behavTrial)
+    error('No behavioral info in CaImageTrials object...');
+    return;
+end
+for i = 1:length(obj)
+        eventTimes.lick{i} = [obj(i).behavTrial.LickTimesPreAnswer obj(i).behavTrial.LickTimesPostAnswer];
+        eventTimes.(i) = obj(i).behavTrial.pinDescentOnsetTime;
+        case 'reward'
+            if isempty(obj(i).behavTrial.answerLickTime)
+                eventTimes(i) = NaN;
+            else
+                eventTimes(i) = obj(i).behavTrial.answerLickTime;
+            end
+        otherwise
+            error('Unknown event name!');
+    end
+end
+
+    

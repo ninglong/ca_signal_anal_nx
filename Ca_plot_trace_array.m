@@ -1,0 +1,42 @@
+function Ca_plot_trace_array(traceArray, ts, h_fig, flag_plot_events, eventt)
+% Plot Ca response traces of multiple trials
+% Input: traceArray, nTrials-by-nFrames.
+%        ts, time stamp of imaging frames.1-by-nFrames
+%        eventt, cell array of events index {[onset offset]}
+%        
+
+% if ~exist('trial_ind')
+%     trial_ind = 1:length(obj);
+% end
+if ~exist('flag_plot_events','var')||~exist('eventt','var')
+    flag_plot_events = 0;
+end
+if ~exist('ts','var')||isempty(ts)
+    ts=1:size(traceArray,2);
+end
+if ~exist('h_fig','var')
+    scrsz = get(0, 'ScreenSize');
+    h_fig = figure('Position', [20, 50, scrsz(3)/4, scrsz(4)-200], 'Color', 'w');
+end
+figure(h_fig); 
+spacing = 1/(size(traceArray,1)+2); % n*x + 3.5x = 1, space between plottings;
+% y_lim = [min(Ca_trace_array(:))/2, max(Ca_trace_array(:))]; 
+y_lim = [-20 250]; %[min(min(y))/2 max(max(y))];
+x_lim = [ts(1)-0.2 ts(end)+0.2];
+for i = 1:size(traceArray,1)
+    ha(i) = axes('position',[0.1, i*spacing, 0.85, 3.5*spacing]);
+    hold on;
+    plot(ts, traceArray(i,:), 'color', 'b'); 
+    if flag_plot_events==1 && ~isempty(eventt{i})
+        t = eventt{i};
+        for k = 1:size(t,1)
+%             event_traces{k} = events(k).value;
+%             event_ts{k} = events(k).ts;
+             plot(t(k,1):t(k,2), traceArray(i,t(k,1):t(k,2)), 'Color', 'g')
+            % plot_Ca_event(events(k),ha(i));
+        end
+    end
+    set(ha(i),'visible','off', 'color','none','YLim',y_lim,'XLim',x_lim);
+end;
+set(ha(1),'visible','on', 'box','off','XColor','k','YColor','k','FontSize',15);
+

@@ -1,0 +1,62 @@
+function make_2pImg_whisker_movie(obj,trialNo, wsk_mov_dir,window,save_fmt, saveFileName,FPS) 
+%
+%  - NX 2009-10
+%
+imgFile2p = obj(trialNo).FileName;
+% t_off = 5;
+frameTime = obj(trialNo).FrameTime;
+if frameTime > 1
+    frameTime = frameTime/1000;
+end
+
+if ~exist('saveFileName','var')
+    saveFileName = obj(trialNo).FileName_prefix;
+end
+
+wsk_mov_files = dir(fullfile(wsk_mov_dir,'*.seq'));
+wsk_mov_fileName = fullfile(wsk_mov_dir, wsk_mov_files(obj(trialNo).TrialNo).name);
+
+h_fig = figure('Position', [138   431   327   535]);
+ha(1) = axes('Position', [0.01 0.39 0.98 0.6]); % 320x320
+ha(2) = axes('Position', [0.01 0.01 0.98 0.38]); % 320*200 
+
+Img2p = imread_multi(imgFile2p,'g');
+ts2p = (1:size(Img2p,3)).*frameTime;
+fr2p = find(ts2p > window(1) & ts2p <= window(2));
+count = 0;
+for i = fr2p
+    axes(ha(1)); colormap(gray);
+    imagesc(Img2p(:,:,i),[0 300]); set(gca,'visible', 'off'); 
+    text(3,5,['Fr# ' num2str(i)],'Color','g');
+    text(400,125,[num2str(i*frameTime) ' sec'],'Color','g');
+    
+    t1 = (i-1)*frameTime;
+    t2 = i*frameTime;
+    frWsk = [round(t1/0.002) ceil(t2/0.002)];
+    if frWsk(1) == 0
+        frWsk(1) = 1;
+    end
+    [wskImg tsWsk] = get_seq_frames(wsk_mov_fileName, frWsk, 5);
+    for j = 1:size(wskImg,3)
+        axes(ha(2)); set(gca,'visible','off');
+        imshow(wskImg(:,:,j),[]);
+        text(400,30,[num2str(tsWsk(j)/1000) ' sec'],'Color','w')
+        count = count + 1;
+        F(count) = getframe(h_fig);
+        if strcmpi(save_fmt,'tif')
+            im = frame2im(F(count));
+            imwrite(im,[saveFileName '.tif'],'tif','compression','none',...
+                'writemode','append');
+        end
+    end
+end
+
+if ~exist('FPS','var')
+    FPS = 15;
+end
+if strcmpi(save_fmt, 'avi')
+    movie2avi(F,[saveFileName '.avi'],'compression','none','fps',FPS);
+end
+
+
+  

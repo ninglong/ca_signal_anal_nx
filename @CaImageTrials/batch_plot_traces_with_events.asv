@@ -1,0 +1,62 @@
+function batch_plot_traces_with_events(obj,trialtypes, ROInums, pptfile)
+% batch Plot traces with events, and copy to PowerPoint
+% pptfile = 'E:\DATA\ImagingData\Awake\Behavior_Imaging\NXJF36703\090717\PPT_files\JF36703_tuft2_20x_d19_beh_dftReg_b.pptx';
+
+if ~exist('ROInums','var')||isempty(ROInums)
+    ROInums = 1:length(obj(1).nROIs);
+end
+if ~exist('trialtypes','var')
+    trialtypes = [1 2 3 4];
+end
+types = {'Hit', 'Miss', 'Crr_Rej', 'False_Alarm', 'Sorted', 'Original'};
+
+for ROInum = ROInums
+%     for trialtype = trialtypes %[1 2 3 4];
+%         
+%         % doppt('new');
+%         switch types{trialtype}
+%             case 'Hit'
+%                 obj = CaObj_hit;
+%             case 'Miss'
+%                 obj = CaObj_miss;
+%             case 'Crr_Rej'
+%                 obj = CaObj_cr;
+%             case 'False_Alarm'
+%                 obj = CaObj_fa;
+%             case 'Sorted'
+%                 obj = CaObj_sorted;
+%             otherwise
+%                 obj = CaObj;
+%         end
+        chunk = 10; % number of traces per figure
+        close all; clear fig;
+        for i=1:ceil(length(obj)/chunk)
+            indStart = (i-1)*chunk+1;
+            if i*chunk > length(obj)
+                indEnd = length(obj);
+            else
+                indEnd = i*chunk;
+            end
+            Tstr = sprintf('ROI # %d, Trial # %d - %d', ROInum, indStart, indEnd);
+            fig(i)= obj.plot_CaTraces_trials(ROInum, (indStart:indEnd), 1);
+            text(1, 120, Tstr, 'FontSize',15);
+            Tstr = sprintf('ROI # %d, Trial # %d - %d', ROInum, indStart, indEnd);
+            fig(i)= obj.plot_CaTraces_trials(ROInum, (indStart:indEnd), 1);
+            text(1, 120, Tstr, 'FontSize',15);
+        end
+        ttl = sprintf('Ca Traces of ROI %d in %s trials, w/ detected events', ROInum, types{trialtype});
+        if length(fig)>4 % paste no more than 4 figures on each PPT slide
+            for i=1:ceil(length(fig)/4)
+                indStart = (i-1)*4+1;
+                if i*4>length(fig)
+                    indEnd=length(fig);
+                else
+                    indEnd=i*4;
+                end
+                saveppt2(pptfile,'figure',fig(indStart:indEnd),'scale','halign','left','columns',4,'title',ttl);
+            end
+        else
+            saveppt2(pptfile,'figure',fig(1:end),'scale','halign','left','columns',length(fig),'title',ttl);
+        end
+%     end
+end
