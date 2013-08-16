@@ -1,6 +1,6 @@
 function varargout = nx_CaSignal_02(varargin)
 % NX_CASIGNAL_02 M-file for nx_CaSignal_02.fig
-%      NX_CASIGNAL_02, by itself, creates a new NX_CASIGNAL_02 or raises the existing
+%      NX_CASIGNAL_02, by itself, ncreates a new NX_CASIGNAL_02 or raises the existing
 %      singleton*.
 %
 %      H = NX_CASIGNAL_02 returns the handle to a new NX_CASIGNAL_02 or the handle to
