@@ -1,5 +1,4 @@
 function varargout = nx_CaSignal_05_2(varargin)
-<<<<<<< HEAD
 % NX_CASIGNAL_05_2 M-file for nx_CaSignal_05_2.fig
 %      NX_CASIGNAL_05_2, by itself, creates a new NX_CASIGNAL_05_2 or raises the existing
 %      singleton*.
@@ -11,7 +10,6 @@ function varargout = nx_CaSignal_05_2(varargin)
 %      function named CALLBACK in NX_CASIGNAL_05_2.M with the given input arguments.
 %
 %      NX_CASIGNAL_05_2('Property','Value',...) creates a new NX_CASIGNAL_05_2 or raises the
-=======
 % nx_CaSignal_05_2 M-file for nx_CaSignal_05_2.fig
 %      nx_CaSignal_05_2, by itself, creates a new nx_CaSignal_05_2 or raises the existing
 %      singleton*.
@@ -23,7 +21,6 @@ function varargout = nx_CaSignal_05_2(varargin)
 %      function named CALLBACK in nx_CaSignal_05_2.M with the given input arguments.
 %
 %      nx_CaSignal_05_2('Property','Value',...) creates a new nx_CaSignal_05_2 or raises the
->>>>>>> 46385587005ab265fc709980bb1334c4d18da5d4
 %      existing singleton*.  Starting from the left, property value pairs are
 %      applied to the GUI before nx_CaSignal_05_2_OpeningFcn gets called.  An
 %      unrecognized property name or invalid value makes property application
