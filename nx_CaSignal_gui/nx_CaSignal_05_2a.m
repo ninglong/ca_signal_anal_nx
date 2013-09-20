@@ -1,36 +1,36 @@
-function varargout = nx_CaSignal_05_2(varargin)
-% NX_CASIGNAL_05_2 M-file for nx_CaSignal_05_2.fig
-%      NX_CASIGNAL_05_2, by itself, creates a new NX_CASIGNAL_05_2 or raises the existing
+function varargout = nx_CaSignal_05_1(varargin)
+% NX_CASIGNAL_05_1 M-file for nx_CaSignal_05_1.fig
+%      NX_CASIGNAL_05_1, by itself, creates a new NX_CASIGNAL_05_1 or raises the existing
 %      singleton*.
 %
-%      H = NX_CASIGNAL_05_2 returns the handle to a new NX_CASIGNAL_05_2 or the handle to
+%      H = NX_CASIGNAL_05_1 returns the handle to a new NX_CASIGNAL_05_1 or the handle to
 %      the existing singleton*.
 %
-%      NX_CASIGNAL_05_2('CALLBACK',hObject,eventData,handles,...) calls the local
-%      function named CALLBACK in NX_CASIGNAL_05_2.M with the given input arguments.
+%      NX_CASIGNAL_05_1('CALLBACK',hObject,eventData,handles,...) calls the local
+%      function named CALLBACK in NX_CASIGNAL_05_1.M with the given input arguments.
 %
-%      NX_CASIGNAL_05_2('Property','Value',...) creates a new NX_CASIGNAL_05_2 or raises the
+%      NX_CASIGNAL_05_1('Property','Value',...) creates a new NX_CASIGNAL_05_1 or raises the
 %      existing singleton*.  Starting from the left, property value pairs are
-%      applied to the GUI before nx_CaSignal_05_2_OpeningFcn gets called.  An
+%      applied to the GUI before nx_CaSignal_05_1_OpeningFcn gets called.  An
 %      unrecognized property name or invalid value makes property application
-%      stop.  All inputs are passed to nx_CaSignal_05_2_OpeningFcn via varargin.
+%      stop.  All inputs are passed to nx_CaSignal_05_1_OpeningFcn via varargin.
 %
 %      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
 %      instance to run (singleton)".
 %
 % See also: GUIDE, GUIDATA, GUIHANDLES
 
-% Edit the above text to modify the response to help nx_CaSignal_05_2
+% Edit the above text to modify the response to help nx_CaSignal_05_1
 
-% Last Modified by GUIDE v2.5 20-Jun-2013 13:17:30
+% Last Modified by GUIDE v2.5 08-Nov-2012 17:45:23
 
 % Begin initialization code - DO NOT EDIT
 
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
                    'gui_Singleton',  gui_Singleton, ...
-                   'gui_OpeningFcn', @nx_CaSignal_05_2_OpeningFcn, ...
-                   'gui_OutputFcn',  @nx_CaSignal_05_2_OutputFcn, ...
+                   'gui_OpeningFcn', @nx_CaSignal_05_1_OpeningFcn, ...
+                   'gui_OutputFcn',  @nx_CaSignal_05_1_OutputFcn, ...
                    'gui_LayoutFcn',  [] , ...
                    'gui_Callback',   []);
 if nargin && ischar(varargin{1})
@@ -45,10 +45,10 @@ end
 % End initialization code - DO NOT EDIT
 
 
-% --- Executes just before nx_CaSignal_05_2 is made visible.
-function nx_CaSignal_05_2_OpeningFcn(hObject, eventdata, handles, varargin)
+% --- Executes just before nx_CaSignal_05_1 is made visible.
+function nx_CaSignal_05_1_OpeningFcn(hObject, eventdata, handles, varargin)
 global CaSignal % ROIinfo ICA_ROIs
-% Choose default command line output for nx_CaSignal_05_2
+% Choose default command line output for nx_CaSignal_05_1
 handles.output = hObject;
 usrpth = userpath; usrpth = usrpth(1:end-1);
 if exist([usrpth filesep 'nx_CaSingal.info'],'file')
@@ -117,12 +117,12 @@ CaSignal.ICA_figs = nan(1,2);
 % Update handles structure
 guidata(hObject, handles);
 
-% UIWAIT makes nx_CaSignal_05_2 wait for user response (see UIRESUME)
+% UIWAIT makes nx_CaSignal_05_1 wait for user response (see UIRESUME)
 % uiwait(handles.figure1);
 
 
 % --- Outputs from this function are returned to the command line.
-function varargout = nx_CaSignal_05_2_OutputFcn(hObject, eventdata, handles) 
+function varargout = nx_CaSignal_05_1_OutputFcn(hObject, eventdata, handles) 
 % varargout  cell array for returning output args (see VARARGOUT);
 % hObject    handle to figure
 % eventdata  reserved - to be defined in a future version of MATLAB
@@ -138,14 +138,10 @@ CaTrial.FileName = filename;
 CaTrial.FileName_prefix = filename(1:end-7);
 
 CaTrial.TrialNo = TrialNo;
+CaTrial.DaqInfo = header;
 if isfield(header, 'acq')
-    CaTrial.DaqInfo = header;
     CaTrial.nFrames = header.acq.numberOfFrames;
     CaTrial.FrameTime = header.acq.msPerLine*header.acq.linesPerFrame;
-elseif isfield(header, 'SI4')
-    CaTrial.DaqInfo = header.SI4;
-    CaTrial.nFrames = header.SI4.acqNumFrames;
-    CaTrial.FrameTime = header.SI4.scanFramePeriod;
 else
     CaTrial.nFrames = header.n_frame;
     CaTrial.FrameTime = [];
@@ -215,8 +211,6 @@ set(handles.msgBox, 'String', ['Loading image file ' filename ' ...']);
 % t_elapsed = toc;
 set(handles.msgBox, 'String', ['Loaded file ' filename]);
 info = imfinfo(filename);
-CaSignal.ImInfo = info;
-
 if isfield(info(1), 'ImageDescription')
     CaSignal.ImageDescription = info(1).ImageDescription; % used by Turboreg
 else
@@ -1650,7 +1644,7 @@ switch get(hObject,'Value')
             h_wait = waitbar(0, 'Calculating cross correlation coefficients for trial 0 ...');
             for i = 1:n_trials
                 waitbar(i/n_trials, h_wait, ['Calculating cross correlation coefficients for trial ' num2str(i)]);
-                img = load_scim_data(CaSignal.data_file_names{i}); 
+                img = load_scim_data(CaSignal.data_file_names{i});
                 xcoef = xcoef_img(img);
                 xcoef_trials(i) = mean(xcoef);
             end
