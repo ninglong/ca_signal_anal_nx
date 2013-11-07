@@ -1,5 +1,5 @@
 function [im, header] = load_scim_data(filename,varargin)
-% function [im, header] = load_scim_data_nx(filename,varargin)
+% function [im, header] = load_scim_data(filename,varargin)
 % varargin{1}, frame_range, 1x2 array specifying start and end frame to
 % load. If not specified, load all frames
 % 
